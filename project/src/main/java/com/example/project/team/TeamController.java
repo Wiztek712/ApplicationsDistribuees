@@ -1,8 +1,15 @@
-package com.example.project;
+package com.example.project.team;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TeamController {
@@ -27,12 +34,7 @@ public class TeamController {
     @GetMapping("/teams/{id}")
     Team one(@PathVariable Long id) {
 
-        Team result = repository.findById(id);
-        
-        if (result == null)
-            throw new TeamNotFoundException(id);
-        else
-            return result;
+        return repository.findById(id).orElseThrow(() -> new TeamNotFoundException(id));
     }
     
     @DeleteMapping("/teams/{id}")
@@ -43,13 +45,14 @@ public class TeamController {
     @PutMapping("/teams/{id}")
     Team replaceTeam(@RequestBody Team newTeam, @PathVariable Long id) {
 
-        Team foundTeam = repository.findById(id);
+        Team foundTeam = repository.findById(id).orElseThrow(() -> new TeamNotFoundException(id));
         
         if (foundTeam == null)
             throw new TeamNotFoundException(id);
         else {
             foundTeam.setName(newTeam.getName());
-            foundTeam.setRole(newTeam.getRole());
+            foundTeam.setHeadQuarters(newTeam.getHeadQuarters());
+            foundTeam.setPilotes(newTeam.getPilotes());
             
             return repository.save(foundTeam);
         }
