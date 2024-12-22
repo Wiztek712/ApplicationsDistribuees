@@ -1,8 +1,14 @@
 package com.example.project.team;
 
 import java.util.List;
+
+import com.example.project.pilote.Pilote;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.GeneratedValue;
 
 @Entity
@@ -14,12 +20,14 @@ public class Team {
 
     private String name;
     private String headQuarters;
-    private List<String> pilotes;
 
-    Team(){
-    }
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Pilote> pilotes;
 
-    public Team(String name, String headQuarters, List<String> pilotes){
+    public Team(){}
+
+    public Team(String name, String headQuarters, List<Pilote> pilotes){
         this.name = name;
         this.headQuarters = headQuarters;
         this.pilotes = pilotes;
@@ -49,11 +57,14 @@ public class Team {
         this.headQuarters = headQuarters;
     }
 
-    public List<String> getPilotes() {
+    public List<Pilote> getPilotes() {
         return pilotes;
     }
 
-    public void setPilotes(List<String> pilotes) {
+    public void setPilotes(List<Pilote> pilotes) {
         this.pilotes = pilotes;
+        for (Pilote pilote : pilotes) {
+            pilote.setTeam(this);
+        }
     }
 }

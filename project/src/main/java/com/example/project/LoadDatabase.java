@@ -4,11 +4,15 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.example.project.pilote.PiloteRepository;
+import com.example.project.pilote.Pilote;
 import com.example.project.team.Team;
 import com.example.project.team.TeamRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,18 +26,50 @@ public class LoadDatabase {
 	}
 
 	@Bean
-	CommandLineRunner initDatabase(TeamRepository repository) {
+	CommandLineRunner initDatabase(TeamRepository repository, PiloteRepository piloteRepository) {
 		return args -> {
 			
-            List<String> ferrariPilotes = new ArrayList<>();
-            ferrariPilotes.add("Leclerc");
-            ferrariPilotes.add("Hamilton");
-			this.log.info("Preloading " + repository.save(new Team("Ferrari", "Maranello", ferrariPilotes)));
+            Team ferrari = new Team();
+            ferrari.setName("Ferrari");
+            repository.save(ferrari);
+
+            List<String> ferrariPiloteNames = List.of("Leclerc", "Hamilton");
+            List<Integer> ferrariPiloteNumbers = List.of(16, 44);
+
+            List<Pilote> ferrariPilotes = IntStream.range(0, ferrariPiloteNames.size())
+                .mapToObj(i -> {
+                    Pilote pilote = new Pilote();
+                    pilote.setName(ferrariPiloteNames.get(i));
+                    pilote.setNumber(ferrariPiloteNumbers.get(i));
+                    pilote.setTeam(ferrari);
+                    return pilote;
+                })
+                .collect(Collectors.toList());
+
+            ferrari.setPilotes(ferrariPilotes);
+            ferrari.setHeadQuarters("Maranello");
+			this.log.info("Preloading " + repository.save(ferrari));
 			
-            List<String> mercedesPilotes = new ArrayList<>();
-            mercedesPilotes.add("Russel");
-            mercedesPilotes.add("Antonelli");
-			this.log.info("Preloading " + repository.save(new Team("Mercedes", "Brakley", mercedesPilotes)));
+            Team mercedes = new Team();
+            mercedes.setName("Mercedes");
+            repository.save(mercedes);
+
+            List<String> mercedesPiloteNames = List.of("Russel", "Antonelli");
+            List<Integer> mercedesPiloteNumbers = List.of(63, 7);
+
+            List<Pilote> mercedesPilotes = IntStream.range(0, mercedesPiloteNames.size())
+                .mapToObj(i -> {
+                    Pilote pilote = new Pilote();
+                    pilote.setName(mercedesPiloteNames.get(i));
+                    pilote.setNumber(mercedesPiloteNumbers.get(i));
+                    pilote.setTeam(mercedes);
+                    return pilote;
+                })
+                .collect(Collectors.toList());
+
+            mercedes.setPilotes(mercedesPilotes);
+            mercedes.setHeadQuarters("Brakley");
+			this.log.info("Preloading " + repository.save(mercedes));
 		};
 	}
 }
