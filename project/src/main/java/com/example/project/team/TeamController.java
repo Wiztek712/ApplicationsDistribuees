@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.project.pilote.Pilote;
 import com.example.project.pilote.PiloteNotFoundException;
 import com.example.project.pilote.PiloteRepository;
-import com.example.project.team.Team;
 
 @RestController
 public class TeamController {

@@ -34,12 +34,16 @@ public class PiloteController {
     }
 
     @PostMapping("/pilotes")
-    Pilote newPilote(@RequestParam String name, @RequestParam int number, @RequestParam Long team_id) {
+    Pilote newPilote(@RequestParam String name, @RequestParam int number, Long team_id) {
         Pilote newPilote = new Pilote();
-        Team team = teamRepository.findById(team_id).orElseThrow(() -> new TeamNotFoundException(team_id));
+        Team team = new Team();
+        if (team_id!=null){
+            team = teamRepository.findById(team_id).orElseThrow(() -> new TeamNotFoundException(team_id));
+            newPilote.setTeam(team);
+        }
         newPilote.setName(name);
         newPilote.setNumber(number);
-        newPilote.setTeam(team);
+        
         return repository.save(newPilote);
     }
 
