@@ -1,5 +1,6 @@
 package com.example.project.team;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.project.pilote.Pilote;
@@ -30,7 +31,7 @@ public class Team {
     public Team(String name, String headQuarters, List<Pilote> pilotes){
         this.name = name;
         this.headQuarters = headQuarters;
-        this.pilotes = pilotes;
+        this.pilotes = pilotes != null ? pilotes : new ArrayList<>();
     }
 
     public Long getId() {
@@ -66,5 +67,10 @@ public class Team {
         for (Pilote pilote : pilotes) {
             pilote.setTeam(this);
         }
+    }
+
+    public void addPilote(Pilote pilote){
+        this.pilotes.add(pilote);
+        pilote.setTeam(this);
     }
 }

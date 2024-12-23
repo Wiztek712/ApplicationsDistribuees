@@ -9,13 +9,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.project.pilote.Pilote;
+import com.example.project.pilote.PiloteNotFoundException;
+import com.example.project.pilote.PiloteRepository;
+import com.example.project.team.Team;
 
 @RestController
 public class TeamController {
     
     @Autowired
     private TeamRepository repository;
+
+    @Autowired
+    private PiloteRepository piloteRepository;
     
     public TeamController() {
     }
@@ -26,8 +35,10 @@ public class TeamController {
     }
     
     @PostMapping("/teams")
-    Team newTeam(@RequestBody Team newTeam) {
-        
+    Team newTeam(@RequestParam String name, @RequestParam String headQuarters) {
+        Team newTeam = new Team();
+        newTeam.setName(name);
+        newTeam.setHeadQuarters(headQuarters);
         return repository.save(newTeam);
     }
     
@@ -37,6 +48,14 @@ public class TeamController {
         return repository.findById(id).orElseThrow(() -> new TeamNotFoundException(id));
     }
     
+    @PostMapping("/teams/{id}")
+    Team addPiloteToTeam(@PathVariable Long id, @RequestParam Long pilote_id) {
+        Pilote pilote = piloteRepository.findById(pilote_id).orElseThrow(() -> new PiloteNotFoundException(pilote_id));
+        Team team = repository.findById(id).orElseThrow(() -> new TeamNotFoundException(id));
+        team.addPilote(pilote);
+        return repository.save(team);
+    }
+
     @DeleteMapping("/teams/{id}")
     void deleteTeam(@PathVariable Long id) {
         repository.deleteById(id);

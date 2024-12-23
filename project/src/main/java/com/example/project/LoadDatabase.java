@@ -9,7 +9,6 @@ import com.example.project.pilote.Pilote;
 import com.example.project.team.Team;
 import com.example.project.team.TeamRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -70,6 +69,11 @@ public class LoadDatabase {
             mercedes.setPilotes(mercedesPilotes);
             mercedes.setHeadQuarters("Brakley");
 			this.log.info("Preloading " + repository.save(mercedes));
+
+            // Team redBull = new Team();
+            // redBull.setName("Red Bull");
+            // redBull.setHeadQuarters("Milton Keys");
+            // this.log.info("Preloading " + repository.save(redBull));
 		};
 	}
 }

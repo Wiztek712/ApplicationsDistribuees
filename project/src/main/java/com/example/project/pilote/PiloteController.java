@@ -9,7 +9,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.project.team.Team;
+import com.example.project.team.TeamNotFoundException;
+import com.example.project.team.TeamRepository;
 
 
 @RestController
@@ -17,6 +22,9 @@ public class PiloteController {
     
     @Autowired
     private PiloteRepository repository;
+
+    @Autowired
+    private TeamRepository teamRepository;
 
     public PiloteController(){}
 
@@ -26,7 +34,12 @@ public class PiloteController {
     }
 
     @PostMapping("/pilotes")
-    Pilote newPilote(@RequestBody Pilote newPilote){
+    Pilote newPilote(@RequestParam String name, @RequestParam int number, @RequestParam Long team_id) {
+        Pilote newPilote = new Pilote();
+        Team team = teamRepository.findById(team_id).orElseThrow(() -> new TeamNotFoundException(team_id));
+        newPilote.setName(name);
+        newPilote.setNumber(number);
+        newPilote.setTeam(team);
         return repository.save(newPilote);
     }
 
