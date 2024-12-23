@@ -15,9 +15,30 @@ Develop a Java web application powered by SpringBoot that enables :
 - Any additional needed documentation (for starting and initializing the database for example)
 
 
+# Instructions
 
-docker run --name pg1 -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres1234! -e POSTGRES_DB=mydb -d postgres:15-alpine
+## Build the project
 
+You can build the project using Maven.
+
+## Deploy the database
+
+This project uses PostgreSQL container for storing application data.
+Assuming your docker installation is functionnal, you can use these commands to set up your environment :  
+```bash
 docker pull postgres
-docker run --name postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres
 docker run --name postgreSQL -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres1234! -e POSTGRES_DB=mydb -d postgres
+```
+Then, let's go to src.main.java.com.example.project.ressources and modify _application.properties_ file. 
+Please, set **spring.datasource.url** according to your configuration.
+
+## Run the code
+
+Now, you are able to run _ProjectApplication.java_.
+
+## Code explanations
+
+Here is a brief review of the code : 
+- pilote and team folder store entity, repository and controller java files.
+- LoadDatabase.java loads demo data.
+- Please find API explanations directly in the controller functions.

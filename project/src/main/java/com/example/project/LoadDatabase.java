@@ -81,11 +81,6 @@ public class LoadDatabase {
                 mercedes.setHeadQuarters("Brakley");
                 this.log.info("Preloading " + repository.save(mercedes));
             }
-
-            // Team redBull = new Team();
-            // redBull.setName("Red Bull");
-            // redBull.setHeadQuarters("Milton Keynes");
-            // this.log.info("Preloading " + repository.save(redBull));
 		};
 	}
 }
