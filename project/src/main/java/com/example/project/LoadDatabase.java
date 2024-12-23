@@ -28,51 +28,63 @@ public class LoadDatabase {
 	CommandLineRunner initDatabase(TeamRepository repository, PiloteRepository piloteRepository) {
 		return args -> {
 			
-            Team ferrari = new Team();
-            ferrari.setName("Ferrari");
-            repository.save(ferrari);
+            if (repository.existsByName("Ferrari")){
+                log.info("Team Ferrari already exists. Skipping creation.");
+                return;
+            }
+            else{
+                Team ferrari = new Team();
+                ferrari.setName("Ferrari");
+                repository.save(ferrari);
+    
+                List<String> ferrariPiloteNames = List.of("Leclerc", "Hamilton");
+                List<Integer> ferrariPiloteNumbers = List.of(16, 44);
+    
+                List<Pilote> ferrariPilotes = IntStream.range(0, ferrariPiloteNames.size())
+                    .mapToObj(i -> {
+                        Pilote pilote = new Pilote();
+                        pilote.setName(ferrariPiloteNames.get(i));
+                        pilote.setNumber(ferrariPiloteNumbers.get(i));
+                        pilote.setTeam(ferrari);
+                        return pilote;
+                    })
+                    .collect(Collectors.toList());
+    
+                ferrari.setPilotes(ferrariPilotes);
+                ferrari.setHeadQuarters("Maranello");
+                this.log.info("Preloading " + repository.save(ferrari));
+            }
+            
+			if (repository.existsByName("Mercedes")){
+                log.info("Team Mercedes already exists. Skipping creation.");
+                return;
+            }
+            else{
+                Team mercedes = new Team();
+                mercedes.setName("Mercedes");
+                repository.save(mercedes);
 
-            List<String> ferrariPiloteNames = List.of("Leclerc", "Hamilton");
-            List<Integer> ferrariPiloteNumbers = List.of(16, 44);
+                List<String> mercedesPiloteNames = List.of("Russel", "Antonelli");
+                List<Integer> mercedesPiloteNumbers = List.of(63, 7);
 
-            List<Pilote> ferrariPilotes = IntStream.range(0, ferrariPiloteNames.size())
-                .mapToObj(i -> {
-                    Pilote pilote = new Pilote();
-                    pilote.setName(ferrariPiloteNames.get(i));
-                    pilote.setNumber(ferrariPiloteNumbers.get(i));
-                    pilote.setTeam(ferrari);
-                    return pilote;
-                })
-                .collect(Collectors.toList());
+                List<Pilote> mercedesPilotes = IntStream.range(0, mercedesPiloteNames.size())
+                    .mapToObj(i -> {
+                        Pilote pilote = new Pilote();
+                        pilote.setName(mercedesPiloteNames.get(i));
+                        pilote.setNumber(mercedesPiloteNumbers.get(i));
+                        pilote.setTeam(mercedes);
+                        return pilote;
+                    })
+                    .collect(Collectors.toList());
 
-            ferrari.setPilotes(ferrariPilotes);
-            ferrari.setHeadQuarters("Maranello");
-			this.log.info("Preloading " + repository.save(ferrari));
-			
-            Team mercedes = new Team();
-            mercedes.setName("Mercedes");
-            repository.save(mercedes);
-
-            List<String> mercedesPiloteNames = List.of("Russel", "Antonelli");
-            List<Integer> mercedesPiloteNumbers = List.of(63, 7);
-
-            List<Pilote> mercedesPilotes = IntStream.range(0, mercedesPiloteNames.size())
-                .mapToObj(i -> {
-                    Pilote pilote = new Pilote();
-                    pilote.setName(mercedesPiloteNames.get(i));
-                    pilote.setNumber(mercedesPiloteNumbers.get(i));
-                    pilote.setTeam(mercedes);
-                    return pilote;
-                })
-                .collect(Collectors.toList());
-
-            mercedes.setPilotes(mercedesPilotes);
-            mercedes.setHeadQuarters("Brakley");
-			this.log.info("Preloading " + repository.save(mercedes));
+                mercedes.setPilotes(mercedesPilotes);
+                mercedes.setHeadQuarters("Brakley");
+                this.log.info("Preloading " + repository.save(mercedes));
+            }
 
             // Team redBull = new Team();
             // redBull.setName("Red Bull");
-            // redBull.setHeadQuarters("Milton Keys");
+            // redBull.setHeadQuarters("Milton Keynes");
             // this.log.info("Preloading " + repository.save(redBull));
 		};
 	}

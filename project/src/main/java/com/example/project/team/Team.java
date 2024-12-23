@@ -10,9 +10,12 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.GeneratedValue;
 
 @Entity
+@Table(name = "team", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 public class Team {
 
     @Id

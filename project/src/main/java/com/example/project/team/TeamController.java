@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -61,17 +60,19 @@ public class TeamController {
     }
     
     @PutMapping("/teams/{id}")
-    Team replaceTeam(@RequestBody Team newTeam, @PathVariable Long id) {
-
+    Team replaceTeam(@RequestParam String name, @RequestParam String headQuarters, @PathVariable Long id) {
         Team foundTeam = repository.findById(id).orElseThrow(() -> new TeamNotFoundException(id));
-        
         if (foundTeam == null)
             throw new TeamNotFoundException(id);
         else {
-            foundTeam.setName(newTeam.getName());
-            foundTeam.setHeadQuarters(newTeam.getHeadQuarters());
-            foundTeam.setPilotes(newTeam.getPilotes());
-            
+            boolean teamExists = repository.existsByName(name);
+            if (teamExists) {
+                throw new DuplicateTeamNameException(name);
+            }
+            else{
+                foundTeam.setName(name);
+                foundTeam.setHeadQuarters(headQuarters);
+            }            
             return repository.save(foundTeam);
         }
     }

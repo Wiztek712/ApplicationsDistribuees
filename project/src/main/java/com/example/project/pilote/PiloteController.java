@@ -8,10 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.project.team.Team;
 import com.example.project.team.TeamNotFoundException;
 import com.example.project.team.TeamRepository;
@@ -59,17 +57,19 @@ public class PiloteController {
     }
     
     @PutMapping("/pilotes/{id}")
-    Pilote replacePilote(@RequestBody Pilote newPilote, @PathVariable Long id) {
-
+    Pilote replacePilote(@RequestParam String name, @RequestParam int number, @PathVariable Long id) {
         Pilote foundPilote = repository.findById(id).orElseThrow(() -> new PiloteNotFoundException(id));
-        
         if (foundPilote == null)
             throw new PiloteNotFoundException(id);
         else {
-            foundPilote.setName(newPilote.getName());
-            foundPilote.setNumber(newPilote.getNumber());
-            foundPilote.setTeam(newPilote.getTeam());
-            
+            boolean piloteExists = repository.existsByNumber(number);
+            if(piloteExists){
+                throw new DuplicatePiloteNumberException(number);
+            }
+            else{
+                foundPilote.setName(name);
+                foundPilote.setNumber(number);
+            }
             return repository.save(foundPilote);
         }
     }
