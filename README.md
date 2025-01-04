@@ -42,3 +42,4 @@ Here is a brief review of the code :
 - pilote and team folder store entity, repository and controller java files.
 - LoadDatabase.java loads demo data.
 - Please find API explanations directly in the controller functions.
+- Go to http://localhost:8080/ to see the pilote and team lists
