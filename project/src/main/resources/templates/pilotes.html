@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Pilotes List</title>
+</head>
+<body>
+    <h1>Pilotes</h1>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Number</th>
+            <th>Team</th>
+        </tr>
+        <tr th:each="pilote : ${pilotes}">
+            <td th:text="${pilote.name}"></td>
+            <td th:text="${pilote.number}"></td>
+            <td th:text="${pilote.team?.name}"></td>
+        </tr>
+    </table>
+    <a href="/">Back to Home</a>
+</body>
+</html>
