@@ -53,3 +53,12 @@ GET http://localhost:8080/pilotes
 GET http://localhost:8080/teams
 POST http://localhost:8080/pilotes?name=Isack&number=34
 POST http://localhost:8080/teams?name=Aston Martin&headQuarters=Silverstone
+
+## Database explanations
+
+The *Pilote* table represents individual drivers, with key fields like **id**, **name**, and **number**. Each pilote is associated with a team through a foreign key, **team_id**, which links it to the *Team* table. This ensures that every pilote belongs to exactly one team, while each team can have multiple pilotes.
+
+The *Team* table itself holds essential information about racing teams, such as **id**, **name**, and **headQuarters**. Additionally, it includes a **list of pilotes** associated with the team, managed via a bi-directional relationship. 
+Unique constraints on both entities has been added : the **number** field in the *Pilote* table and the **name** field in the *Team* table, to fit to reality.
+
+The setup also includes cascade operations. These ensure that when a team is updated or deleted, its associated pilotes are handled appropriately, maintaining data integrity.
