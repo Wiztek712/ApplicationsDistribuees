@@ -39,8 +39,17 @@ Now, you are able to run src/main/java/com/example/project/_ProjectApplication.j
 ## Code explanations
 
 Here is a brief review of the code : 
-- pilote and team folder store entity, repository and controller java files.
+- pilote and team folders store entity, repository and controller java files.
 - LoadDatabase.java loads demo data.
 - Please find API explanations directly in the controller functions.
 - Go to http://localhost:8080/ to see the pilote and team lists.
 - You can run tests for some basic features.
+
+## API Requests examples
+
+Here is 4 basic queries you can perform with Postman. Don't hesitate to also have a look to id-based requests.
+
+GET http://localhost:8080/pilotes
+GET http://localhost:8080/teams
+POST http://localhost:8080/pilotes?name=Isack&number=34
+POST http://localhost:8080/teams?name=Aston Martin&headQuarters=Silverstone

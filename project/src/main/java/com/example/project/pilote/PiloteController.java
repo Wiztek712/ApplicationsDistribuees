@@ -32,7 +32,7 @@ public class PiloteController {
         return repository.findAll();
     }
 
-    // Create a new pilote, with or without team
+    // Create a new pilote, with NAME and NUMBER (TEAM_ID is optional)
     @PostMapping("/pilotes")
     Pilote newPilote(@RequestParam String name, @RequestParam int number, Long team_id) {
         Pilote newPilote = new Pilote();
@@ -60,7 +60,7 @@ public class PiloteController {
         repository.deleteById(id);
     }
     
-    // Replace a pilote by another.
+    // Replace a pilote by another, with NAME and NUMBER.
     // The function handles the case where the new pilote has the same number as another pilote
     // by canceling the operation. Otherwise, name and number are replaced and the new pilote
     // inherites the team and the id of the previous one.

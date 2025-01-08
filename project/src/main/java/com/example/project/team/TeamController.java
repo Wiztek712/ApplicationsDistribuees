@@ -33,7 +33,7 @@ public class TeamController {
         return repository.findAll();
     }
     
-    // Create a new team without pilote
+    // Create a new team without pilote, with NAME and HEADQUARTERS
     @PostMapping("/teams")
     Team newTeam(@RequestParam String name, @RequestParam String headQuarters) {
         Team newTeam = new Team();
@@ -49,7 +49,7 @@ public class TeamController {
         return repository.findById(id).orElseThrow(() -> new TeamNotFoundException(id));
     }
     
-    // Add a pilote to a particular team
+    // Add a pilote to a particular team, with PILOTE_ID
     @PostMapping("/teams/{id}")
     Team addPiloteToTeam(@PathVariable Long id, @RequestParam Long pilote_id) {
         Pilote pilote = piloteRepository.findById(pilote_id).orElseThrow(() -> new PiloteNotFoundException(pilote_id));
@@ -64,7 +64,7 @@ public class TeamController {
         repository.deleteById(id);
     }
     
-    // Replace a team by another.
+    // Replace a team by another, with NAME and HEADQUARTERS.
     // The function handles the case where the new team has the same name as another team
     // by canceling the operation. Otherwise, name and head quarters are replaced and the new team
     // inherites the pilotes and the id of the previous one.
