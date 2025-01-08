@@ -34,7 +34,7 @@ Please, set **spring.datasource.url** according to your configuration.
 
 ## Run the code
 
-Now, you are able to run _ProjectApplication.java_.
+Now, you are able to run src/main/java/com/example/project/_ProjectApplication.java_.
 
 ## Code explanations
 
@@ -42,4 +42,5 @@ Here is a brief review of the code :
 - pilote and team folder store entity, repository and controller java files.
 - LoadDatabase.java loads demo data.
 - Please find API explanations directly in the controller functions.
-- Go to http://localhost:8080/ to see the pilote and team lists
+- Go to http://localhost:8080/ to see the pilote and team lists.
+- You can run tests for some basic features.
